@@ -3,23 +3,16 @@
 import { useState } from "react"
 import Image from "next/image"
 import img from "../../../public/image copy 4.png"
+import { useGetTodoQuery } from "@/app/services/pokemon2"
 
-const data = Array.from({ length: 25 }).map(() => ({
-  name: "Аличон Забири",
-  phone: "88888 0101",
-  email: "example@gmail.com",
-  company: "Капитал-Т",
-  date: "01.12.2024",
-}))
-
-const PAGE_SIZE = 5
 
 export default function Page() {
   const [page, setPage] = useState(1)
-
-  const totalPages = Math.ceil(data.length / PAGE_SIZE)
+  const {data} = useGetTodoQuery();
+  const PAGE_SIZE = 5
+  const totalPages = Math.ceil(data?.length / PAGE_SIZE)
   const start = (page - 1) * PAGE_SIZE
-  const current = data.slice(start, start + PAGE_SIZE)
+  const current = data?.slice(start, start + PAGE_SIZE)
 
   return (
     <div className="w-full">
@@ -36,13 +29,13 @@ export default function Page() {
         </thead>
 
         <tbody>
-          {current.map((item, i) => (
+          {data?.map((item, i) => (
             <tr key={i} className="shadow rounded-full">
               <td className="py-4 px-6 font-medium">{item.name}</td>
-              <td>{item.phone}</td>
+              <td>{item.name}</td>
               <td>{item.email}</td>
               <td>{item.company}</td>
-              <td>{item.date}</td>
+              <td>{item.phone}</td>
               <td className="text-center">
                 <Image src={img} alt="" className="w-7 h-7 mx-auto" />
               </td>

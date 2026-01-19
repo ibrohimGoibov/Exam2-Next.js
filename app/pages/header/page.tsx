@@ -7,6 +7,7 @@ import img from '../../../public/image.png'
 import img1 from '../../../public/image copy.png'
 import { Modal } from 'antd'
 import { useRouter } from 'next/dist/client/components/navigation'
+import { Toaster } from 'react-hot-toast'
 
 const Page = () => {
   const [open, setOpen] = useState(false)

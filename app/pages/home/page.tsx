@@ -2,6 +2,7 @@
 import Image from 'next/image'
 import img from '../../../public/image copy 2.png'
 import Link from 'next/link'
+import { useState } from 'react'
 import {
   useDeleteTodoMutation,
   useGetTodosQuery,
@@ -25,15 +26,25 @@ const Page = () => {
   const [editTodo] = useEditTodoMutation()
   const [checkboxTodo] = useCheckboxTodoMutation()
   const { register, handleSubmit, reset } = useForm()
+  const [preview, setPreview] = useState<string | null>(null)
+
+  const handleFileChange = (file: File) => {
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      setPreview(reader.result as string)
+    }
+    reader.readAsDataURL(file)
+  }
 
   const onEdit = async (formData: any, id: number) => {
     await editTodo({
       id,
       name: formData.name,
       about: formData.about,
-      avatar: formData.avatar
+      avatar: preview,
     })
     reset()
+    setPreview(null)
   }
 
   return (
@@ -55,6 +66,7 @@ const Page = () => {
           {data?.map(e => (
             <div key={e.id} className="num1 border rounded-[20px] p-[10px] mt-[20px] w-[400px]">
               <Image src={e.avatar || img} alt="" width={300} height={200} />
+
               <div className="txt p-[20px]">
                 <h2 className="text-[20px] font-[700]">{e.name}</h2>
                 <p className="text-[grey] text-[14px]">{e.about}</p>
@@ -73,13 +85,13 @@ const Page = () => {
 
                     <Dialog>
                       <DialogTrigger
-                        onClick={() =>
+                        onClick={() => {
                           reset({
                             name: e.name,
                             about: e.about,
-                            avatar: e.avatar,
                           })
-                        }
+                          setPreview(e.avatar)
+                        }}
                       >
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                           <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
@@ -95,9 +107,27 @@ const Page = () => {
                               className="flex flex-col gap-[10px]"
                               onSubmit={handleSubmit(data => onEdit(data, e.id))}
                             >
+                              {preview && (
+                                <Image
+                                  src={preview}
+                                  alt=""
+                                  width={300}
+                                  height={200}
+                                  className="rounded-[10px]"
+                                />
+                              )}
+
                               <Input {...register('name')} placeholder="Edit name" />
                               <Input {...register('about')} placeholder="Edit about" />
-                              <Input {...register('avatar')} placeholder="Edit img" />
+
+                              <input
+                                type="file"
+                                accept="image/*"
+                                onChange={e => {
+                                  const file = e.target.files?.[0]
+                                  if (file) handleFileChange(file)
+                                }}
+                              />
 
                               <button type="submit">Edit</button>
                             </form>
@@ -105,29 +135,25 @@ const Page = () => {
                         </DialogHeader>
                       </DialogContent>
                     </Dialog>
-                    <button
-  onClick={() =>
-    checkboxTodo({
-      id: e.id,
-      status: !e.status
-    })
-  }
->
-  {e.status ? (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/>
-      <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/>
-      <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/>
-      <path d="m2 2 20 20"/>
-    </svg>
-  ) : (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/>
-      <circle cx="12" cy="12" r="3"/>
-    </svg>
-  )}
-</button>
 
+                    <button
+                      onClick={() =>
+                        checkboxTodo({
+                          id: e.id,
+                          status: !e.status,
+                        })
+                      }
+                    >
+                      {e.status ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="m2 2 20 20" />
+                        </svg>
+                      ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <circle cx="12" cy="12" r="3" />
+                        </svg>
+                      )}
+                    </button>
                   </div>
                 </div>
               </div>

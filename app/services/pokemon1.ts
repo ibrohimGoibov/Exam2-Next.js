@@ -34,7 +34,7 @@ export const pokemonApi1 = createApi({
     editTodo: builder.mutation<void, { id: number } & Partial<Pokemon>>({
       query: ({ id, ...data }) => ({
         url: `product/${id}`,
-        method: 'PATCH',
+        method: 'PUT',
         body: data
       }),
       invalidatesTags: ['Todo']

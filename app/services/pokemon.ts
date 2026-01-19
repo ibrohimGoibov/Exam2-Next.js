@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 // @ts-ignore
 import type { Pokemon } from './types'
+import toast, { Toaster } from 'react-hot-toast';
 
 export const pokemonApi = createApi({
   reducerPath: 'pokemonApi',
@@ -19,6 +20,7 @@ export const pokemonApi = createApi({
         method: 'DELETE'
       }),
       invalidatesTags: ['Todo']
+
     }),
     loginTodo: builder.query<any[], { email: string; password: string }>({
   query: ({ email, password }) =>
