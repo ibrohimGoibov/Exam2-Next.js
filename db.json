@@ -1,0 +1,62 @@
+{
+  "data": [
+    {
+      "id": "1",
+      "avatar": "https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/male/512/29.jpg",
+      "name": "Coca Cola",
+      "about": "Coca Cola is a carbonated soft drink manufactured by The Coca-Cola Company. Originally intended as a patent medicine, it was invented in the late",
+      "status": true
+    },
+    {
+      "name": "Messi Pepsi",
+      "about": "Pepsi is a carbonated soft drink produced and manufactured by PepsiCo. Originally created and developed in 1893 by Caleb Bradham",
+      "avatar": "https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/female/512/11.jpg",
+      "status": false,
+      "id": "2"
+    },
+    {
+      "name": "Fanta Manta",
+      "about": "Fanta is a brand of fruit-flavored carbonated soft drinks created by The Coca-Cola Company. The drink was created in Germany",
+      "avatar": "https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/male/512/15.jpg",
+      "id": "3"
+    }
+  ],
+  "users": [
+  {
+    "id": "1",
+    "email": "SuperAdmin",
+    "password": "SuperAdmin2026",
+    "role": "admin"
+  }
+],
+  "people": [
+    {
+      "id": "2",
+      "email": "home",
+      "password": "ibrohimgoibov10@gmail.com",
+      "role": "client"
+    }
+  ],
+  "product": [
+    {
+      "id": "10",
+      "name": "Ali",
+      "status": true,
+      "info": "This is a sample product description."
+    },
+    {
+      "id": "11",
+      "name": "Vali",
+      "status": false,
+      "info": "This is another sample product description."
+    },
+    {
+      "id": "12",
+      "name": "Gani bablo",
+      "status": true,
+      "info": "This is yet another sample product description.",
+      "about": "",
+      "avatar": ""
+    }
+  ]
+}
